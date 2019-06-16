@@ -1,0 +1,38 @@
+version: '2.0'
+
+services:
+    mongodb:
+        container_name: mongodb-blog
+        image: mongo:latest
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: 'root'
+            MONGO_INITDB_ROOT_PASSWORD: 'password'
+            MONGO_INITDB_DATABASE: 'blog'
+        ports:
+            - 27019:27017
+        volumes:
+            - ./docker/mongodb/:/docker-entrypoint-initdb.d
+    mongoexpress:
+        container_name: mongoexpress-blog
+        image: mongo-express:latest
+        restart: always
+        ports:
+            - 8085:8081
+        environment:
+            ME_CONFIG_MONGODB_SERVER: mongodb
+            ME_CONFIG_MONGODB_ADMINUSERNAME: 'root'
+            ME_CONFIG_MONGODB_ADMINPASSWORD: 'password'
+        depends_on:
+            - mongodb
+    redis:
+        container_name: redis-blog
+        image: redis:latest
+        restart: always
+        environment:
+            ALLOW_EMPTY_PASSWORD: 'no'
+            REDIS_EXTRA_FLAGS: '--maxmemory 50mb'
+        command: >
+            --requirepass password
+        ports:
+            - 6379:6379

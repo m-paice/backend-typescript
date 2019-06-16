@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "target": "es6",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "alwaysStrict": true,
+        "noEmit": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "strict": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "commonjs",
+        "jsx": "preserve",
+        "lib": ["dom", "es2018"],
+        "sourceMap": true,
+        "outDir": "build"
+    },
+    "include": ["src/**/*", "migrations/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts", "**/build/"]
+}

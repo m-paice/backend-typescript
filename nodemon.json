@@ -1,0 +1,13 @@
+{
+    "watch": ["src"],
+    "ext": "ts",
+    "execMap": {
+        "ts": "ts-node src/index.ts"
+    },
+    "env": {
+        "MONGO_URL": "",
+        "REDIS_PASSWORD": "",
+        "REDIS_HOST": "",
+        "JWT_SECRETKEY": ""
+    }
+}
