@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-import routes from './routes/author';
+import routeAuthor from './routes/author';
+import routePost from './routes/post';
 
 class App {
     public express: express.Application;
@@ -30,7 +31,8 @@ class App {
     };
 
     private routes(): void {
-        this.express.use(routes);
+        this.express.use(routeAuthor);
+        this.express.use(routePost);
     }
 }
 
