@@ -3,7 +3,7 @@ import BaseController from './BaseController';
 
 class AuthorController extends BaseController<AuthorInterface> {
     constructor() {
-        super(Author, '/author');
+        super(Author, '/author', '');
     }
 
     routes() {

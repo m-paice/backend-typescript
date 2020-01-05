@@ -6,13 +6,16 @@ class BaseController<T extends Document> {
 
     private path: string;
 
-    constructor(model: Model<T>, path: string) {
+    private populate: string;
+
+    constructor(model: Model<T>, path: string, populate: string) {
         this.model = model;
         this.path = path;
+        this.populate = populate;
     }
 
     async index(req: Request, res: Response): Promise<Response> {
-        const response = await this.model.find();
+        const response = await this.model.find().populate(this.populate);
 
         return res.json(response);
     }
@@ -20,7 +23,7 @@ class BaseController<T extends Document> {
     async show(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const response = await this.model.findOne({ _id: id });
+        const response = await this.model.findOne({ _id: id }).populate(this.populate);
 
         if (!response) return res.send({});
 
@@ -29,7 +32,9 @@ class BaseController<T extends Document> {
 
     async store(req: Request, res: Response): Promise<Response> {
         const { body } = req;
-        const response = await this.model.create(body);
+        const data = await this.model.create(body);
+
+        const response = await this.model.findOne({ _id: data._id }).populate(this.populate);
 
         return res.json(response);
     }
@@ -44,7 +49,7 @@ class BaseController<T extends Document> {
 
         await this.model.update({ _id: isData.id }, body);
 
-        const response = await this.model.findOne({ _id: isData.id });
+        const response = await this.model.findOne({ _id: isData.id }).populate(this.populate);
 
         return res.json(response);
     }
