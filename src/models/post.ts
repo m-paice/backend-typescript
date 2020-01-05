@@ -1,10 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-
-interface AuthorInterface {
-    firstName: string;
-    lastName?: string;
-    email: string;
-}
+import { AuthorInterface } from './author'
 
 interface FilesInterface {
     name: string;
@@ -13,7 +8,7 @@ interface FilesInterface {
     type: string;
 }
 
-interface PostInterface extends Document {
+export interface PostInterface extends Document {
     author: AuthorInterface;
     title: string;
     subTitle?: string;

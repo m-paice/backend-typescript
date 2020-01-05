@@ -4,8 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
-import routeAuthor from './routes/author';
-import routePost from './routes/post';
+import routes from './routes';
 
 class App {
     public express: express.Application;
@@ -31,11 +30,10 @@ class App {
     };
 
     private routes(): void {
-        this.express.use(routeAuthor);
-        this.express.use(routePost);
+        routes.map(route => this.express.use(route));
     }
 }
 
 const server = new App().express;
 
-server.listen(7878, (): void => console.log('Server is online'));
+server.listen(3333, (): void => console.log('Server is online'));
