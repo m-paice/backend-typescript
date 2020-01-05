@@ -1,18 +1,24 @@
 import { Schema, model, Document } from 'mongoose';
 
 export interface AuthorInterface extends Document {
-    firstName: string;
-    lastName: string;
+    name: string;
     email: string;
+    username: string;
+    password: string;
 }
 
 const authorSchema = new Schema({
-    firstName: {
+    name: {
         type: String,
         required: true,
     },
-    lastName: String,
-    email: {
+    email: String,
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+    },
+    password: {
         type: String,
         required: true,
     },

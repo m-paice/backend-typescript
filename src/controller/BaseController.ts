@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express';
 import { Model, Document } from 'mongoose';
 
+import auth from '../middlewares/auth';
+
 class BaseController<T extends Document> {
     private model: Model<T>;
 
@@ -25,33 +27,41 @@ class BaseController<T extends Document> {
 
         const response = await this.model.findOne({ _id: id }).populate(this.populate);
 
-        if (!response) return res.send({});
+        if (!response) return res.status(500).send({});
 
         return res.json(response);
     }
 
     async store(req: Request, res: Response): Promise<Response> {
         const { body } = req;
-        const data = await this.model.create(body);
+        try {
+            const data = await this.model.create(body);
 
-        const response = await this.model.findOne({ _id: data._id }).populate(this.populate);
+            const response = await this.model.findOne({ _id: data._id }).populate(this.populate);
 
-        return res.json(response);
+            return res.json(response);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 
     async update(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { body } = req;
 
-        const isData = await this.model.findOne({ _id: id });
+        try {
+            const isData = await this.model.findOne({ _id: id });
 
-        if (!isData) return res.json({ message: 'record not found' });
+            if (!isData) return res.status(500).json({ message: 'record not found' });
 
-        await this.model.update({ _id: isData.id }, body);
+            await this.model.update({ _id: isData.id }, body);
 
-        const response = await this.model.findOne({ _id: isData.id }).populate(this.populate);
+            const response = await this.model.findOne({ _id: isData.id }).populate(this.populate);
 
-        return res.json(response);
+            return res.json(response);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
     }
 
     async destroy(req: Request, res: Response): Promise<Response> {
@@ -59,7 +69,7 @@ class BaseController<T extends Document> {
 
         const isData = await this.model.findOne({ _id: id });
 
-        if (!isData) return res.json({ message: 'record not found' });
+        if (!isData) return res.status(500).json({ message: 'record not found' });
 
         await this.model.deleteOne({ _id: id });
 
@@ -72,7 +82,7 @@ class BaseController<T extends Document> {
         routes.get(this.path, this.index.bind(this));
         routes.get(`${this.path}/:id`, this.show.bind(this));
         routes.post(this.path, this.store.bind(this));
-        routes.put(`${this.path}/:id`, this.update.bind(this));
+        routes.put(`${this.path}/:id`, auth, this.update.bind(this));
         routes.delete(`${this.path}/:id`, this.destroy.bind(this));
 
         return routes;

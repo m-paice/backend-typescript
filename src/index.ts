@@ -26,6 +26,7 @@ class App {
     private database = (): void => {
         mongoose.connect('mongodb://root:password@127.0.0.1:27019/blog?authSource=admin', {
             useNewUrlParser: true,
+            useUnifiedTopology: true
         });
     };
 
