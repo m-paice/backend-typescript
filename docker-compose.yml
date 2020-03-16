@@ -2,19 +2,19 @@ version: '2.0'
 
 services:
     mongodb:
-        container_name: mongodb-blog
+        container_name: mongodb-webchat
         image: mongo:latest
         restart: always
         environment:
             MONGO_INITDB_ROOT_USERNAME: 'root'
             MONGO_INITDB_ROOT_PASSWORD: 'password'
-            MONGO_INITDB_DATABASE: 'blog'
+            MONGO_INITDB_DATABASE: 'webchat'
         ports:
             - 27019:27017
         volumes:
             - ./docker/mongodb/:/docker-entrypoint-initdb.d
     mongoexpress:
-        container_name: mongoexpress-blog
+        container_name: mongoexpress-webchat
         image: mongo-express:latest
         restart: always
         ports:
@@ -25,14 +25,14 @@ services:
             ME_CONFIG_MONGODB_ADMINPASSWORD: 'password'
         depends_on:
             - mongodb
-    redis:
-        container_name: redis-blog
-        image: redis:latest
-        restart: always
-        environment:
-            ALLOW_EMPTY_PASSWORD: 'no'
-            REDIS_EXTRA_FLAGS: '--maxmemory 50mb'
-        command: >
-            --requirepass password
-        ports:
-            - 6379:6379
+    # redis:
+    #     container_name: redis-blog
+    #     image: redis:latest
+    #     restart: always
+    #     environment:
+    #         ALLOW_EMPTY_PASSWORD: 'no'
+    #         REDIS_EXTRA_FLAGS: '--maxmemory 50mb'
+    #     command: >
+    #         --requirepass password
+    #     ports:
+    #         - 6379:6379

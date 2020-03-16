@@ -1,7 +1,5 @@
-import AuthorController from './author';
-import PostController from './post';
+import MessageController from './messages';
+import ChatController from './chats';
+import UserController from './users';
 
-export {
-    AuthorController,
-    PostController,
-};
+export { MessageController, ChatController, UserController };

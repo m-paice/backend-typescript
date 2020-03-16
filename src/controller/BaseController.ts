@@ -10,9 +10,10 @@ class BaseController<T extends Document> {
 
     private populate: string;
 
-    constructor(model: Model<T>, path: string, populate: string) {
+    constructor(model: Model<T>, path: string, populate: string | string[]) {
         this.model = model;
         this.path = path;
+        // @ts-ignore
         this.populate = populate;
     }
 

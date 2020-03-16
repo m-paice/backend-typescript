@@ -1,3 +1,3 @@
-import { AuthorController, PostController } from './controller';
+import { MessageController, ChatController, UserController } from './controller';
 
-export default [new AuthorController().routes(), new PostController().routes()];
+export default [new MessageController().routes(), new ChatController().routes(), new UserController().routes()];

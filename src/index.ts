@@ -6,6 +6,8 @@ import mongoose from 'mongoose';
 
 import routes from './routes';
 
+require('dotenv').config();
+
 class App {
     public express: express.Application;
 
@@ -24,17 +26,18 @@ class App {
     }
 
     private database = (): void => {
-        mongoose.connect('mongodb://root:password@127.0.0.1:27019/blog?authSource=admin', {
+        mongoose.connect('mongodb://root:password@127.0.0.1:27019/webchat?authSource=admin', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
     };
 
     private routes(): void {
+        this.express.get('/', (req, res) => res.send('Welcome API webchat'))
         routes.map(route => this.express.use(route));
     }
 }
 
 const server = new App().express;
 
-server.listen(3333, (): void => console.log('Server is online'));
+server.listen(process.env.PORT, (): void => console.log('Server is online'));

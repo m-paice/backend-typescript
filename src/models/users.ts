@@ -1,13 +1,13 @@
 import { Schema, model, Document } from 'mongoose';
 
-export interface AuthorInterface extends Document {
+export interface UserInterface extends Document {
     name: string;
     email: string;
     username: string;
     password: string;
 }
 
-const authorSchema = new Schema({
+const userSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -24,4 +24,4 @@ const authorSchema = new Schema({
     },
 });
 
-export default model<AuthorInterface>('Author', authorSchema);
+export default model<UserInterface>('Users', userSchema);
